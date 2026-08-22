@@ -18,24 +18,18 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y openjdk-17-jdk zip unzip libffi-dev build-essential git ccache autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libssl-dev
+          sudo apt install -y openjdk-17-jdk zip unzip libffi-dev build-essential git ccache autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo6 cmake libssl-dev
           pip install --upgrade pip setuptools buildozer cython
 
-      - name: Build with Buildozer and Accept Licenses
+      - name: Build with Buildozer
         run: |
-          # تشغيل التمهيد لإنشاء المجلدات
-          yes | buildozer android debug || true
+          # تجهيز مجلد الرخص مسبقاً وتخطي المطالبة
+          mkdir -p ~/.android
+          touch ~/.android/repositories.cfg
           
-          # قبول الرخص في كافة المسارات الممكنة لـ SDK
-          mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-          echo -e "\n2433370233637922f6d08fdb5f1a917d1a625061" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-          echo -e "\n846400268344306573d2e7633b64033b7638 active" >> ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
-          echo -e "\nd9753112693270b9650bf046092ee2b170900317" >> ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-          
-          yes | ~/.buildozer/android/platform/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses || true
-          
-          # إعادة البناء بعد قبول الرخص
-          buildozer android debug
+          # قبول الرخص التلقائي أثناء البناء
+          export BUILDOZER_ACCEPT_SDK_LICENSES=1
+          yes | buildozer android debug
 
       - uses: actions/upload-artifact@v4
         with:
