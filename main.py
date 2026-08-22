@@ -1,24 +1,9 @@
-from kivy.lang import Builder
-from kivymd.app import MDApp
+from kivy.app import App
+from kivy.uix.label import Label
 
-KV = """
-MDScreen:
-    MDBoxLayout:
-        orientation: "vertical"
-        padding: "20dp"
-        spacing: "15dp"
-
-        MDTopAppBar:
-            title: "Krot App"
-
-        MDLabel:
-            text: "تطبيق جاهز للبناء عبر Buildozer"
-            halign: "center"
-"""
-
-class KrotApp(MDApp):
+class KrotApp(App):
     def build(self):
-        return Builder.load_string(KV)
+        return Label(text='تطبيق ناجح عبر GitHub Actions')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     KrotApp().run()
