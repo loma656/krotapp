@@ -5,7 +5,8 @@ package.domain = org.example
 source.dir = .
 source.include_exts = py,png,jpg,kv,json
 version = 1.0
-requirements = python3,kivy,kivymd,requests
+requirements = python3,kivy,git+https://github.com/kivymd/Kivymd.git@master,requests
+
 orientation = portrait
 android.permissions = INTERNET
 
